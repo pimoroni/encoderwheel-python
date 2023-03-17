@@ -29,10 +29,10 @@ def sleep_until(end_time):
     time_to_sleep = end_time - time.monotonic()
     if time_to_sleep > 0.0:
         time.sleep(time_to_sleep)
-        
-        
+
+
 def clamp(n, smallest, largest):
-    return max(smallest, min(n, largest))    
+    return max(smallest, min(n, largest))
 
 from datetime import datetime
 
