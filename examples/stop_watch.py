@@ -1,7 +1,6 @@
 import time
 import math
-from encoderwheel import EncoderWheel
-from colorsys import hsv_to_rgb
+from encoderwheel import EncoderWheel, NUM_LEDS, CENTRE
 
 """
 Display a circular stop-watch on the Encoder Wheel's LED ring.
@@ -55,7 +54,7 @@ current_time = time.monotonic()
 while True:
 
     # Read whether or not the wheen centre has been pressed
-    centre_pressed = wheel.ioe.input(wheel.SW_CENTRE) == 0
+    centre_pressed = wheel.pressed(CENTRE)
     if centre_pressed and centre_pressed != last_centre_pressed:
         if state == IDLE:           # If we're currently idle, switch to counting
             second_update = 0
@@ -75,9 +74,8 @@ while True:
         percent_along = min(idle_update / UPDATES_PER_PULSE, 1.0)
         brightness = ((math.cos(percent_along * math.pi * 2) + 1.0) / 2.0) * ((IDLE_PULSE_MAX - IDLE_PULSE_MIN)) + IDLE_PULSE_MIN
         # Update all the LEDs
-        for i in range(24):
-            r, g, b = [int(c * 255) for c in hsv_to_rgb(0.0, 0.0, brightness)]
-            wheel.set_pixel(i, r, g, b)
+        for i in range(NUM_LEDS):
+            wheel.set_hsv(i, 0.0, 0.0, brightness)
         wheel.show()
 
         # Advance to the next update, wrapping around to zero if at the end
@@ -94,11 +92,11 @@ while True:
 
         # Set each LED, such that ones below the current time are fully lit, ones after
         # are off, and the one at the transition is at a percentage of the brightness
-        for i in range(24):
+        for i in range(NUM_LEDS):
             r = clamp(r_to_light - i, 0.0, 1.0) * BRIGHTNESS * 255
             g = clamp(g_to_light - i, 0.0, 1.0) * BRIGHTNESS * 255
             b = clamp(b_to_light - i, 0.0, 1.0) * BRIGHTNESS * 255
-            wheel.set_pixel(i, r, g, b)
+            wheel.set_rgb(i, r, g, b)
         wheel.show()
 
         # Advance the second updates count, wrapping around to zero if at the end

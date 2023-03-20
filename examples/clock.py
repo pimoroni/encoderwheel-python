@@ -1,23 +1,21 @@
 import time
-import math
-from encoderwheel import EncoderWheel
-from colorsys import hsv_to_rgb
+from encoderwheel import EncoderWheel, NUM_LEDS
+from datetime import datetime
 
 """
-Displays a rotating rainbow pattern on Encoder Wheel's LED ring.
+Displays a 12 hour clock on Encoder Wheel's LED ring, getting time from the system.
 """
 
 # Constants
-SPEED = 5           # The speed that the LEDs will cycle at
 BRIGHTNESS = 1.0    # The brightness of the LEDs
 UPDATES = 50        # How many times the LEDs will be updated per second
 UPDATE_RATE = 1 / UPDATES
 
-PULSE_CYCLE_TIME = 2
-UPDATES_PER_PULSE = PULSE_CYCLE_TIME * UPDATES
-
-COUNTING_TIME = 60
-UPDATES_PER_COUNT = COUNTING_TIME * UPDATES
+# Handy values for the number of milliseconds
+MILLIS_PER_SECOND = 1000
+MILLIS_PER_MINUTE = MILLIS_PER_SECOND * 60
+MILLIS_PER_HOUR = MILLIS_PER_MINUTE * 60
+MILLIS_PER_HALF_DAY = MILLIS_PER_HOUR * 12
 
 # Create a new EncoderWheel
 wheel = EncoderWheel()
@@ -31,43 +29,55 @@ def sleep_until(end_time):
         time.sleep(time_to_sleep)
 
 
+# Simple function to clamp a value between a minimum and maximum
 def clamp(n, smallest, largest):
     return max(smallest, min(n, largest))
 
-from datetime import datetime
+
+# Calculates the brightness of an LED based on its index and a position along the LED ring
+def led_brightness_at(led, position, half_width=1, span=1):
+    brightness = 0.0
+    upper = position + half_width
+    lower = position - half_width
+    if led > position:
+        brightness = clamp((upper - led) / span, 0.0, 1.0)
+    else:
+        brightness = clamp((led - lower) / span, 0.0, 1.0)
+
+    # Handle the LEDs being in a circle
+    if upper >= NUM_LEDS:
+        brightness = clamp(((upper - NUM_LEDS) - led) / span, brightness, 1.0)
+    elif lower < 0.0:
+        brightness = clamp((led - (lower + NUM_LEDS)) / span, brightness, 1.0)
+
+    return brightness * BRIGHTNESS * 255
+
 
 # Make rainbows
 while True:
 
     # Record the start time of this loop
     start_time = time.monotonic()
-    
-    t = time.localtime(time.time())
-    now = datetime.now()
-    r_update = (now.second * 1000) + (now.microsecond // 1000)
-    g_update = (now.minute * 60 * 1000) + r_update
-    b_update = ((now.hour % 12) * 60 * 60 * 1000) + g_update
-            
-    #leds_to_light = min(update / UPDATES_PER_COUNT, 1.0) * 24
-    r_to_light = min(r_update / (1000 * 60), 1.0) * 24
-    g_to_light = min(g_update / (1000 * 60 * 60), 1.0) * 24
-    b_to_light = min(b_update / (1000 * 60 * 60 * 12), 1.0) * 24
-    for i in range(24):  #Has an issue with effect wrapping around the top
-        if i > r_to_light:
-            r = clamp((r_to_light - i) + 1, 0.0, 1.0) * BRIGHTNESS * 255
-        else:
-            r = clamp((i - r_to_light) + 1, 0.0, 1.0) * BRIGHTNESS * 255
 
-        if i > g_to_light:
-            g = clamp((g_to_light - i) + 1, 0.0, 1.0) * BRIGHTNESS * 255
-        else:
-            g = clamp((i - g_to_light) + 1, 0.0, 1.0) * BRIGHTNESS * 255
-            
-        if i > b_to_light:
-            b = clamp((b_to_light - i) + 1, 0.0, 1.0) * BRIGHTNESS * 255
-        else:
-            b = clamp((i - b_to_light) + 1, 0.0, 1.0) * BRIGHTNESS * 255
-        wheel.set_pixel(i, r, g, b)
+    # Get the current system time
+    now = datetime.now()
+
+    # Convert the seconds, minutes, and hours into milliseconds (this is done to give a smoother animation, particularly for the seconds hand)
+    sec_as_millis = (now.second * MILLIS_PER_SECOND) + (now.microsecond // MILLIS_PER_SECOND)
+    min_as_millis = (now.minute * MILLIS_PER_MINUTE) + sec_as_millis
+    hour_as_millis = ((now.hour % 12) * MILLIS_PER_HOUR) + min_as_millis
+
+    # Calculate the position on the LED ring that the, second, minute, and hour hands should be
+    sec_pos = min(sec_as_millis / MILLIS_PER_MINUTE, 1.0) * NUM_LEDS
+    min_pos = min(min_as_millis / MILLIS_PER_HOUR, 1.0) * NUM_LEDS
+    hour_pos = min(hour_as_millis / MILLIS_PER_HALF_DAY, 1.0) * NUM_LEDS
+
+    for i in range(NUM_LEDS):
+        # Turn on the LEDs close to the position of the current second, minute, and hour
+        r = led_brightness_at(i, sec_pos)
+        g = led_brightness_at(i, min_pos)
+        b = led_brightness_at(i, hour_pos)
+        wheel.set_rgb(i, r, g, b)
     wheel.show()
 
     # Sleep until the next update, accounting for how long the above operations took to perform

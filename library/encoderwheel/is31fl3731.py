@@ -103,7 +103,7 @@ class Matrix:
             if hasattr(e, 'errno') and e.errno == 5:
                 e.strerror += '\n\nMake sure your LED SHIM is attached, and double-check your soldering.\n'
             raise e
-    
+
         self.show()
 
         # Display initialization
@@ -255,13 +255,13 @@ class Matrix:
         output = [0 for x in range(144)]
 
         for x in range(self._width):
-                r, g, b, br = self.buf[x]
-                r, g, b = [self._gamma_table[int(c * self._brightness * br)] for c in (r, g, b)]
+            r, g, b, br = self.buf[x]
+            r, g, b = [self._gamma_table[int(c * self._brightness * br)] for c in (r, g, b)]
 
-                rgb = [r, g, b]
-                for y in range(3):
-                    idx = self._pixel_addr(x, y)
-                    output[idx] = rgb[y]
+            rgb = [r, g, b]
+            for y in range(3):
+                idx = self._pixel_addr(x, y)
+                output[idx] = rgb[y]
 
         self._bank(next_frame)
 

@@ -1,19 +1,27 @@
 import time
-from ioexpander import IOE, IN, IN_PU
+from ioexpander import IOE, IN_PU
+from ioexpander.encoder import Encoder
 from encoderwheel import is31fl3731
+from colorsys import hsv_to_rgb
 
 __version__ = '0.0.1'
 
 I2C_ADDR = 0x13
 DEFAULT_LED_I2C_ADDR = 0x77
 ALTERNATE_LED_I2C_ADDR = 0x74
+NUM_LEDS = 24
+NUM_BUTTONS = 5
+
+UP = 0
+DOWN = 1
+LEFT = 2
+RIGHT = 3
+CENTRE = 4
 
 class EncoderWheel():
-    NUM_LEDS = 24
     ENC_CHANNEL = 1
-    ENC_TERM_A = 3
-    ENC_TERM_B = 12
-    
+    ENC_TERMS = (3, 12)
+
     SW_UP = 13
     SW_DOWN = 4
     SW_LEFT = 11
@@ -28,75 +36,119 @@ class EncoderWheel():
                        skip_chip_id_check=skip_chip_id_check
                        )
 
-        self.ioe.setup_rotary_encoder(self.ENC_CHANNEL, self.ENC_TERM_A, self.ENC_TERM_B, count_microsteps=True)
+        self.encoder = Encoder(self.ioe, self.ENC_CHANNEL, self.ENC_TERMS, count_microsteps=True, count_divider=2)
         self.ioe.set_mode(self.SW_UP, IN_PU)
         self.ioe.set_mode(self.SW_DOWN, IN_PU)
         self.ioe.set_mode(self.SW_LEFT, IN_PU)
         self.ioe.set_mode(self.SW_RIGHT, IN_PU)
         self.ioe.set_mode(self.SW_CENTRE, IN_PU)
+        self.button_map = {
+            UP: self.SW_UP,
+            RIGHT: self.SW_RIGHT,
+            DOWN: self.SW_DOWN,
+            LEFT: self.SW_LEFT,
+            CENTRE: self.SW_CENTRE
+        }
 
         self.is31fl3731 = is31fl3731.RGBRing(None, address=led_i2c_addr, gamma_table=is31fl3731.LED_GAMMA)
         self.is31fl3731.clear()
         self.is31fl3731.show()
 
-    def set_pixel(self, index, r, g, b):
-        if index < 0 or index >= self.NUM_LEDS:
-            raise ValueError("index out of range. Expected 0 to 23")
+    def set_rgb(self, index, r, g, b):
+        if index < 0 or index >= NUM_LEDS:
+            raise ValueError(f"index out of range. Expected 0 to {NUM_LEDS - 1}")
 
         self.is31fl3731.set_pixel(index, r, g, b)
-        
+
+    def set_hsv(self, index, h, s=1.0, v=1.0):
+        if index < 0 or index >= NUM_LEDS:
+            raise ValueError(f"index out of range. Expected 0 to {NUM_LEDS - 1}")
+
+        r, g, b = [int(c * 255) for c in hsv_to_rgb(h, s, v)]
+        self.is31fl3731.set_pixel(index, r, g, b)
+
     def show(self):
         self.is31fl3731.show()
-        
+
+    def clear(self):
+        self.is31fl3731.clear()
+
     def count(self):
-        return self.ioe.read_rotary_encoder(self.ENC_CHANNEL) // 2
+        return self.encoder.count()
+
+    def delta(self):
+        return self.encoder.delta()
+
+    def step(self):
+        return self.encoder.step()
+
+    def turn(self):
+        return self.encoder.turn()
+
+    def zero(self):
+        return self.encoder.zero()
+
+    def revolutions(self):
+        return self.encoder.revolutions()
+
+    def degrees(self):
+        return self.encoder.degrees()
+
+    def radians(self):
+        return self.encoder.radians()
+
+    def pressed(self, button):
+        if button < 0 or button >= NUM_BUTTONS:
+            raise ValueError(f"button out of range. Expected 0 to {NUM_BUTTONS - 1}")
+
+        return self.ioe.input(self.button_map[button]) == 0        
 
 
 if __name__ == "__main__":
-    wheel = EncoderWheel()#led_i2c_addr=ALTERNATE_LED_I2C_ADDR)
+    wheel = EncoderWheel()
 
     last_update_time = time.monotonic()
     led_index = 0
     led_sequence = 0
     last_count = 0
-    
+
     last_pressed = {
         wheel.SW_UP: False,
         wheel.SW_DOWN: False,
         wheel.SW_LEFT: False,
         wheel.SW_RIGHT: False,
         wheel.SW_CENTRE: False,
-        }
-   
+    }
+
     while True:
 
         current_time = time.monotonic()
         if current_time >= last_update_time + 0.1:
             if led_sequence == 0:
                 wheel.set_pixel(led_index, 255, 0, 0)
-                
+
             if led_sequence == 1:
                 wheel.set_pixel(led_index, 0, 255, 0)
-                
+
             if led_sequence == 2:
                 wheel.set_pixel(led_index, 0, 0, 255)
-                
+
             if led_sequence == 3:
                 wheel.set_pixel(led_index, 255, 255, 255)
-                
+
             if led_sequence == 4:
                 wheel.set_pixel(led_index, 0, 0, 0)
-            
+
             led_index += 1
             if led_index >= 24:
                 led_index = 0
                 led_sequence += 1
                 if led_sequence >= 5:
                     led_sequence = 0
-                    
+
             last_update_time = current_time
             wheel.show()
-        
+
         count = wheel.count()
         if count != last_count:
             if count - last_count > 0:
@@ -104,7 +156,7 @@ if __name__ == "__main__":
             else:
                 print("Counter Clockwise, Count =", count)
             last_count = count
-            
+
         pressed = wheel.ioe.input(wheel.SW_UP) == 0
         if pressed != last_pressed[wheel.SW_UP]:
             if pressed:
@@ -112,7 +164,7 @@ if __name__ == "__main__":
             else:
                 print("Up Released")
             last_pressed[wheel.SW_UP] = pressed
-            
+
         pressed = wheel.ioe.input(wheel.SW_DOWN) == 0
         if pressed != last_pressed[wheel.SW_DOWN]:
             if pressed:
@@ -120,7 +172,7 @@ if __name__ == "__main__":
             else:
                 print("Down Released")
             last_pressed[wheel.SW_DOWN] = pressed
-            
+
         pressed = wheel.ioe.input(wheel.SW_LEFT) == 0
         if pressed != last_pressed[wheel.SW_LEFT]:
             if pressed:
@@ -128,7 +180,7 @@ if __name__ == "__main__":
             else:
                 print("Left Released")
             last_pressed[wheel.SW_LEFT] = pressed
-    
+
         pressed = wheel.ioe.input(wheel.SW_RIGHT) == 0
         if pressed != last_pressed[wheel.SW_RIGHT]:
             if pressed:
@@ -136,7 +188,7 @@ if __name__ == "__main__":
             else:
                 print("Right Released")
             last_pressed[wheel.SW_RIGHT] = pressed
-            
+
         pressed = wheel.ioe.input(wheel.SW_CENTRE) == 0
         if pressed != last_pressed[wheel.SW_CENTRE]:
             if pressed:
@@ -144,4 +196,3 @@ if __name__ == "__main__":
             else:
                 print("Centre Released")
             last_pressed[wheel.SW_CENTRE] = pressed
-   

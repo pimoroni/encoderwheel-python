@@ -1,5 +1,5 @@
 import time
-from encoderwheel import EncoderWheel
+from encoderwheel import EncoderWheel, NUM_LEDS, UP, DOWN, LEFT, RIGHT, CENTRE
 from colorsys import hsv_to_rgb
 
 """
@@ -25,7 +25,6 @@ wheel = EncoderWheel()
 # Variables
 brightness = 1.0
 saturation = 1.0
-last_count = 0
 position = 0
 changed = True
 last_centre_pressed = False
@@ -49,22 +48,22 @@ while True:
     start_time = time.monotonic()
 
     # If up is pressed, increase the brightness
-    if wheel.ioe.input(wheel.SW_UP) == 0:
+    if wheel.pressed(UP):
         brightness += BRIGHTNESS_STEP
         changed = True  # Trigger a change
 
     # If down is pressed, decrease the brightness
-    if wheel.ioe.input(wheel.SW_DOWN) == 0:
+    if wheel.pressed(DOWN):
         brightness -= BRIGHTNESS_STEP
         changed = True  # Trigger a change
 
     # If right is pressed, increase the saturation
-    if wheel.ioe.input(wheel.SW_RIGHT) == 0:
+    if wheel.pressed(RIGHT):
         saturation += SATURATION_STEP
         changed = True  # Trigger a change
 
     # If left is pressed, decrease the saturation
-    if wheel.ioe.input(wheel.SW_LEFT) == 0:
+    if wheel.pressed(LEFT):
         saturation -= SATURATION_STEP
         changed = True  # Trigger a change
 
@@ -73,23 +72,13 @@ while True:
     saturation = clamp01(saturation)
 
     # Check if the encoder has been turned
-    count = wheel.count()
-    if count != last_count:
-        change = count - last_count
-        last_count = count
-
+    if wheel.delta() != 0:
         # Update the position based on the count change
-        position += change
-        if change > 0:
-            if position >= 24:
-                position -= 24
-        else:
-            if position < 0:
-                position += 24
+        position = wheel.step()
         changed = True  # Trigger a change
 
     # If centre is pressed, trigger a change
-    centre_pressed = wheel.ioe.input(wheel.SW_CENTRE) == 0
+    centre_pressed = wheel.pressed(CENTRE)
     if centre_pressed != last_centre_pressed:
         changed = True
     last_centre_pressed = centre_pressed
@@ -97,25 +86,23 @@ while True:
     # Was a change triggered?
     if changed:
         # Print the colour at the current hue, saturation, and brightness
-        r, g, b = [int(c * 255) for c in hsv_to_rgb(position / 24, saturation, brightness)]
+        r, g, b = [int(c * 255) for c in hsv_to_rgb(position / NUM_LEDS, saturation, brightness)]
         print("Colour Code = #", hex(r)[2:].zfill(2), hex(g)[2:].zfill(2), hex(b)[2:].zfill(2), sep="")
 
         # Set the LED at the current position to either the actual colour,
         # or an inverted version to show a "selection marker"
         if centre_pressed:
-            wheel.set_pixel(position, r, g, b)
+            wheel.set_rgb(position, r, g, b)
         else:
-            wheel.set_pixel(position, 255 - r, 255 - g, 255 - b)
+            wheel.set_rgb(position, 255 - r, 255 - g, 255 - b)
 
         # Set the LEDs below the current position
         for i in range(0, position):
-            r, g, b = [int(c * 255) for c in hsv_to_rgb(i / 24, saturation, brightness)]
-            wheel.set_pixel(i, r, g, b)
+            wheel.set_hsv(i, i / NUM_LEDS, saturation, brightness)
 
         # Set the LEDs after the current position
-        for i in range(position + 1, 24):
-            r, g, b = [int(c * 255) for c in hsv_to_rgb(i / 24, saturation, brightness)]
-            wheel.set_pixel(i, r, g, b)
+        for i in range(position + 1, NUM_LEDS):
+            wheel.set_hsv(i, i / NUM_LEDS, saturation, brightness)
         wheel.show()
         changed = False
 

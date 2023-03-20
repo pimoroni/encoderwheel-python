@@ -1,4 +1,4 @@
-from encoderwheel import EncoderWheel
+from encoderwheel import EncoderWheel, NUM_LEDS
 from colorsys import hsv_to_rgb
 import random
 
@@ -13,8 +13,6 @@ wheel = EncoderWheel()
 # Press "B" to start or stop the game mode.
 # Press "Boot" to invert the direction of the accelerometer tilt
 
-# Set how many LEDs you have
-NUM_LEDS = 24
 
 # The band colour hues to show in Angle mode
 GOAL_HUE = 0.333
@@ -73,45 +71,29 @@ def colour_band(centre_position, width, goal_position, goal_width, hue):
                 else:
                     val = map(i, band_centre, band_end, BAND_BRIGHTNESS, brightness)
                     sat = map(i, band_centre, band_end, BAND_SATURATION, saturation)
-                r, g, b = [int(c * 255) for c in hsv_to_rgb(hue, sat, val)]
-                wheel.set_pixel(i, r, g, b)
+                wheel.set_hsv(i, hue, sat, val)
 
             elif band_end >= NUM_LEDS and i + NUM_LEDS < band_end and i < band_centre:
                 val = map(i + NUM_LEDS, band_centre, band_end, BAND_BRIGHTNESS, brightness)
                 sat = map(i + NUM_LEDS, band_centre, band_end, BAND_SATURATION, saturation)
-                r, g, b = [int(c * 255) for c in hsv_to_rgb(hue, sat, val)]
-                wheel.set_pixel(i, r, g, b)
+                wheel.set_hsv(i, hue, sat, val)
 
             elif band_start < 0 and i - NUM_LEDS >= band_start and i >= band_centre:
                 val = map(i - NUM_LEDS, band_centre, band_start, BAND_BRIGHTNESS, brightness)
                 sat = map(i - NUM_LEDS, band_centre, band_start, BAND_SATURATION, saturation)
-                r, g, b = [int(c * 255) for c in hsv_to_rgb(hue, sat, val)]
-                wheel.set_pixel(i, r, g, b)
+                wheel.set_hsv(i, hue, sat, val)
             else:
                 # Outside of the band
-                r, g, b = [int(c * 255) for c in hsv_to_rgb(hue, 0.0, brightness)]
-                wheel.set_pixel(i, r, g, b)
+                wheel.set_hsv(i, hue, 0.0, brightness)
         wheel.show()
 
 
 goal_position = 0.0
-last_count = 0
 band_position = 0
 
 while True:
 
-    count = wheel.count()
-    if count != last_count:
-        change = count - last_count
-        band_position += change
-        if change > 0:
-            if band_position >= 24:
-                band_position -= 24
-        else:
-            if band_position < 0:
-                band_position += 24
-
-        last_count = count
+    band_position = wheel.step()
 
     # Convert the difference between the band and goal positions into a colour hue
     if band_position > goal_position:
