@@ -1,8 +1,10 @@
 import time
-from ioexpander import IOE, IN_PU
-from ioexpander.encoder import Encoder
-from encoderwheel import is31fl3731
 from colorsys import hsv_to_rgb
+
+from ioexpander import IN_PU, IOE
+from ioexpander.encoder import Encoder
+
+from encoderwheel import is31fl3731
 
 __version__ = '0.0.1'
 

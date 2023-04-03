@@ -1,8 +1,8 @@
 """Driver for the IS31FL3731."""
-import time
 import atexit
-from smbus2 import SMBus
+import time
 
+from smbus2 import SMBus
 
 _MODE_REGISTER = 0x00
 _FRAME_REGISTER = 0x01

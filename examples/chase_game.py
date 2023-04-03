@@ -1,5 +1,6 @@
-from encoderwheel import EncoderWheel, NUM_LEDS
 import random
+
+from encoderwheel import NUM_LEDS, EncoderWheel
 
 wheel = EncoderWheel()
 # A simple balancing game, where you use the MSA301 accelerometer to line up a band with a goal on the strip.

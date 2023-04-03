@@ -1,6 +1,7 @@
 import time
-from encoderwheel import EncoderWheel
 from colorsys import hsv_to_rgb
+
+from encoderwheel import EncoderWheel
 
 """
 Displays a rotating rainbow pattern on Encoder Wheel's LED ring.
