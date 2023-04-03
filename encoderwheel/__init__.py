@@ -101,7 +101,7 @@ class EncoderWheel():
         if button < 0 or button >= NUM_BUTTONS:
             raise ValueError(f"button out of range. Expected 0 to {NUM_BUTTONS - 1}")
 
-        return self.ioe.input(self.button_map[button]) == 0        
+        return self.ioe.input(self.button_map[button]) == 0
 
 
 if __name__ == "__main__":
