@@ -35,7 +35,8 @@ classifiers = [
     "Topic :: System :: Hardware",
 ]
 dependencies = [
-    "pimoroni-ioexpander"
+    "pimoroni-ioexpander",
+    "smbus2"
 ]
 
 [project.urls]
