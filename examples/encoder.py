@@ -1,4 +1,4 @@
-from encoderwheel import EncoderWheel, NUM_LEDS
+from encoderwheel import EncoderWheel
 
 """
 A demonstation of reading the rotary dial of the Encoder Wheel breakout

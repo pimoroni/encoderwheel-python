@@ -1,5 +1,4 @@
 from encoderwheel import EncoderWheel, NUM_LEDS
-from colorsys import hsv_to_rgb
 import random
 
 wheel = EncoderWheel()
