@@ -1,7 +1,7 @@
 from encoderwheel import EncoderWheel
 
 """
-A demonstation of reading the rotary dial of the Encoder Wheel breakout
+A demonstation of reading the rotary dial of the Encoder Wheel breakout.
 """
 
 # Create a new EncoderWheel
