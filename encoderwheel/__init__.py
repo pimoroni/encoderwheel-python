@@ -30,11 +30,11 @@ class EncoderWheel():
     SW_RIGHT = 2
     SW_CENTRE = 1
 
-    def __init__(self, enc_i2c_addr=I2C_ADDR, led_i2c_addr=DEFAULT_LED_I2C_ADDR, interrupt_timeout=1.0, interrupt_pin=None, gpio=None, skip_chip_id_check=False):
+    def __init__(self, enc_i2c_addr=I2C_ADDR, led_i2c_addr=DEFAULT_LED_I2C_ADDR, interrupt_timeout=1.0, interrupt_pin=None, skip_chip_id_check=False):
         self.ioe = IOE(i2c_addr=enc_i2c_addr,
                        interrupt_timeout=interrupt_timeout,
                        interrupt_pin=interrupt_pin,
-                       gpio=gpio,
+                       gpio=None,
                        skip_chip_id_check=skip_chip_id_check
                        )
 
@@ -56,24 +56,11 @@ class EncoderWheel():
         self.is31fl3731.clear()
         self.is31fl3731.show()
 
-    def set_rgb(self, index, r, g, b):
-        if index < 0 or index >= NUM_LEDS:
-            raise ValueError(f"index out of range. Expected 0 to {NUM_LEDS - 1}")
+    def pressed(self, button):
+        if button < 0 or button >= NUM_BUTTONS:
+            raise ValueError(f"button out of range. Expected 0 to {NUM_BUTTONS - 1}")
 
-        self.is31fl3731.set_pixel(index, r, g, b)
-
-    def set_hsv(self, index, h, s=1.0, v=1.0):
-        if index < 0 or index >= NUM_LEDS:
-            raise ValueError(f"index out of range. Expected 0 to {NUM_LEDS - 1}")
-
-        r, g, b = [int(c * 255) for c in hsv_to_rgb(h, s, v)]
-        self.is31fl3731.set_pixel(index, r, g, b)
-
-    def show(self):
-        self.is31fl3731.show()
-
-    def clear(self):
-        self.is31fl3731.clear()
+        return self.ioe.input(self.button_map[button]) == 0
 
     def count(self):
         return self.encoder.count()
@@ -99,11 +86,27 @@ class EncoderWheel():
     def radians(self):
         return self.encoder.radians()
 
-    def pressed(self, button):
-        if button < 0 or button >= NUM_BUTTONS:
-            raise ValueError(f"button out of range. Expected 0 to {NUM_BUTTONS - 1}")
+    def direction(self, direction=None):
+        return self.encoder.direction(direction)
 
-        return self.ioe.input(self.button_map[button]) == 0
+    def set_rgb(self, index, r, g, b):
+        if index < 0 or index >= NUM_LEDS:
+            raise ValueError(f"index out of range. Expected 0 to {NUM_LEDS - 1}")
+
+        self.is31fl3731.set_pixel(index, r, g, b)
+
+    def set_hsv(self, index, h, s=1.0, v=1.0):
+        if index < 0 or index >= NUM_LEDS:
+            raise ValueError(f"index out of range. Expected 0 to {NUM_LEDS - 1}")
+
+        r, g, b = [int(c * 255) for c in hsv_to_rgb(h, s, v)]
+        self.is31fl3731.set_pixel(index, r, g, b)
+
+    def clear(self):
+        self.is31fl3731.clear()
+
+    def show(self):
+        self.is31fl3731.show()
 
 
 if __name__ == "__main__":
