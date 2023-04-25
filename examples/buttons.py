@@ -28,11 +28,11 @@ while True:
 
     # Clear the LED ring
     wheel.clear()
-    
+
     for i in range(NUM_LEDS):
         if i % 6 == 3:
             wheel.set_rgb(i, 64, 64, 64)
-            
+
     # If up is pressed, set the top LEDs to yellow
     if pressed[UP]:
         mid = NUM_LEDS

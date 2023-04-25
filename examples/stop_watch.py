@@ -1,5 +1,6 @@
-import time
 import math
+import time
+
 from encoderwheel import EncoderWheel, NUM_LEDS, CENTRE
 
 """

@@ -1,6 +1,7 @@
 import time
-from encoderwheel import EncoderWheel, NUM_LEDS
 from datetime import datetime
+
+from encoderwheel import EncoderWheel, NUM_LEDS
 
 """
 Displays a 12 hour clock on Encoder Wheel's LED ring, getting time from the system.

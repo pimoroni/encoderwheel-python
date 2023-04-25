@@ -1,6 +1,7 @@
 import time
-from encoderwheel import EncoderWheel, NUM_LEDS, UP, DOWN, LEFT, RIGHT, CENTRE
 from colorsys import hsv_to_rgb
+
+from encoderwheel import EncoderWheel, NUM_LEDS, UP, DOWN, LEFT, RIGHT, CENTRE
 
 """
 Create a colour wheel on the Encoder Wheel's LED ring, and use all functions of the wheel to interact with it.

@@ -30,10 +30,10 @@ while True:
 
         # Record the new position (from 0 to 23)
         position = wheel.step()
-        
+
         # Record a colour hue from 0.0 to 1.0
         hue = wheel.revolutions() % 1.0
-    
+
         # Set the LED at the new position to the new hue
         wheel.clear()
         wheel.set_hsv(position, hue, 1.0, 1.0)

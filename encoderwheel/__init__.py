@@ -1,8 +1,10 @@
 import time
+from colorsys import hsv_to_rgb
+
 from ioexpander import IOE, IN_PU
 from ioexpander.encoder import Encoder
+
 from encoderwheel import is31fl3731
-from colorsys import hsv_to_rgb
 
 __version__ = '0.0.1'
 
@@ -101,7 +103,7 @@ class EncoderWheel():
         if button < 0 or button >= NUM_BUTTONS:
             raise ValueError(f"button out of range. Expected 0 to {NUM_BUTTONS - 1}")
 
-        return self.ioe.input(self.button_map[button]) == 0        
+        return self.ioe.input(self.button_map[button]) == 0
 
 
 if __name__ == "__main__":
