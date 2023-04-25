@@ -25,6 +25,8 @@ This is the library reference for the [Pimoroni Encoder Wheel Breakout](https://
   - [Count Constants](#count-constants)
 
 
+<!-- pypa starts reference here -->
+
 ## Getting Started
 
 To start coding for your Encoder Wheel breakout, you will need to add the following lines to the start of your code file.
