@@ -2,17 +2,13 @@ import random
 
 from encoderwheel import NUM_LEDS, EncoderWheel
 
+"""
+A simple alignment game. Use Encoder Wheel's rotary dial to align the coloured band
+to the white goal. The closer to the goal, the greener your coloured band will be.
+When you reach the goal, the goal will move to a new random position.
+"""
+
 wheel = EncoderWheel()
-# A simple balancing game, where you use the MSA301 accelerometer to line up a band with a goal on the strip.
-# This can either be done using:
-# - Angle mode: Where position on the strip directly matches the accelerometer's angle
-# - Velocity mode: Where tilting the accelerometer changes the speed the band moves at
-# When the goal position is reached, a new position is randomly selected
-
-# Press "A" to change the game mode.
-# Press "B" to start or stop the game mode.
-# Press "Boot" to invert the direction of the accelerometer tilt
-
 
 # The band colour hues to show in Angle mode
 GOAL_HUE = 0.333

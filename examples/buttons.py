@@ -1,7 +1,7 @@
 from encoderwheel import CENTRE, DOWN, LEFT, NUM_BUTTONS, NUM_LEDS, RIGHT, UP, EncoderWheel
 
 """
-A demonstation of reading the 5 buttons on Encoder Wheel
+A demonstation of reading the 5 buttons on Encoder Wheel.
 """
 
 # Constants

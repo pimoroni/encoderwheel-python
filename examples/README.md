@@ -17,13 +17,13 @@
 ### Buttons
 [buttons.py](buttons.py)
 
-TODO
+A demonstation of reading the 5 buttons on Encoder Wheel.
 
 
 ### Encoder
 [encoder.py](encoder.py)
 
-TODO
+A demonstation of reading the rotary dial of the Encoder Wheel breakout.
 
 
 ## LED Examples
@@ -31,13 +31,13 @@ TODO
 ### LED Rainbow
 [led_rainbow.py](led_rainbow.py)
 
-TODO
+Displays a rotating rainbow pattern on Encoder Wheel's LED ring.
 
 
 ### Clock
 [clock.py](clock.py)
 
-TODO
+Displays a 12 hour clock on Encoder Wheel's LED ring, getting time from the system.
 
 
 ## Interactive Examples
@@ -45,16 +45,16 @@ TODO
 ### Colour Picker
 [colour_picker.py](colour_picker.py)
 
-TODO
+Create a colour wheel on the Encoder Wheel's LED ring, and use all functions of the wheel to interact with it.
 
 
 ### Stop Watch
 [stop_watch.py](stop_watch.py)
 
-TODO
+Display a circular stop-watch on the Encoder Wheel's LED ring.
 
 
 ### Chase Game
 [chase_game.py](chase_game.py)
 
-TODO
+A simple alignment game. Use Encoder Wheel's rotary dial to align the coloured band to the white goal. The closer to the goal, the greener your coloured band will be. When you reach the goal, the goal will move to a new random position.
