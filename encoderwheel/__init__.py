@@ -1,7 +1,7 @@
 import time
 from colorsys import hsv_to_rgb
 
-from ioexpander import IOE, IN_PU
+from ioexpander import IN_PU, IOE
 from ioexpander.encoder import Encoder
 
 from encoderwheel import is31fl3731

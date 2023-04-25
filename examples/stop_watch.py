@@ -1,7 +1,7 @@
 import math
 import time
 
-from encoderwheel import EncoderWheel, NUM_LEDS, CENTRE
+from encoderwheel import CENTRE, NUM_LEDS, EncoderWheel
 
 """
 Display a circular stop-watch on the Encoder Wheel's LED ring.

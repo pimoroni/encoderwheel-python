@@ -1,7 +1,7 @@
 import random
 from colorsys import hsv_to_rgb
 
-from encoderwheel import EncoderWheel, NUM_LEDS
+from encoderwheel import NUM_LEDS, EncoderWheel
 
 wheel = EncoderWheel()
 # A simple balancing game, where you use the MSA301 accelerometer to line up a band with a goal on the strip.
