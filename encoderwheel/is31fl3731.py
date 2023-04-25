@@ -1,7 +1,6 @@
 """Driver for the IS31FL3731."""
 import atexit
 import time
-from sys import version_info
 
 from smbus2 import SMBus
 
@@ -302,9 +301,9 @@ class Matrix:
 
         self.i2c.write_i2c_block_data(self.address, register, [value])
 
-    def _chunk(self, l, n):
-        for i in range(0, len(l) + 1, n):
-            yield l[i:i + n]
+    def _chunk(self, data, n):
+        for i in range(0, len(data) + 1, n):
+            yield data[i:i + n]
 
     def _pixel_addr(self, x, y):
         return x + y * 16
