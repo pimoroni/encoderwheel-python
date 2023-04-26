@@ -137,13 +137,13 @@ class EncoderWheel():
         if gpio < 7 or gpio > 9:
             raise ValueError("gpio out of range. Expected GP7 (7), GP8 (8), or GP9 (9)")
 
-        self.ioe.pwm_load(PWM_MODULE, wait_for_load)
+        self.ioe.pwm_load(self.PWM_MODULE, wait_for_load)
 
     def gpio_pin_frequency(self, gpio, frequency, load=True, wait_for_load=True):
         if gpio < 7 or gpio > 9:
             raise ValueError("gpio out of range. Expected GP7 (7), GP8 (8), or GP9 (9)")
 
-        self.ioe.set_pwm_frequency(frequency, PWM_MODULE, load=load, wait_for_load=wait_for_load)
+        self.ioe.set_pwm_frequency(frequency, self.PWM_MODULE, load=load, wait_for_load=wait_for_load)
 
 
 if __name__ == "__main__":
