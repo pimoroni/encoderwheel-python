@@ -2,11 +2,13 @@ import random
 
 from encoderwheel import NUM_LEDS, EncoderWheel
 
-"""
+print("""
 A simple alignment game. Use Encoder Wheel's rotary dial to align the coloured band
 to the white goal. The closer to the goal, the greener your coloured band will be.
 When you reach the goal, the goal will move to a new random position.
-"""
+
+Press Ctrl+C to stop the program.
+""")
 
 wheel = EncoderWheel()
 

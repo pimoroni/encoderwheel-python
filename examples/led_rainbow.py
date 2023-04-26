@@ -3,9 +3,11 @@ from colorsys import hsv_to_rgb
 
 from encoderwheel import EncoderWheel
 
-"""
+print("""
 Displays a rotating rainbow pattern on Encoder Wheel's LED ring.
-"""
+
+Press Ctrl+C to stop the program.
+""")
 
 # Constants
 SPEED = 5           # The speed that the LEDs will cycle at

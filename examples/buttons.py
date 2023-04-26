@@ -1,8 +1,10 @@
 from encoderwheel import CENTRE, DOWN, LEFT, NUM_BUTTONS, NUM_LEDS, RIGHT, UP, EncoderWheel
 
-"""
-A demonstation of reading the 5 buttons on Encoder Wheel.
-"""
+print("""
+A demonstration of reading the 5 buttons on Encoder Wheel.
+
+Press Ctrl+C to stop the program.
+""")
 
 # Constants
 BUTTON_NAMES = ["Up", "Down", "Left", "Right", "Centre"]

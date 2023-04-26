@@ -1,8 +1,10 @@
 from encoderwheel import EncoderWheel
 
-"""
-A demonstation of reading the rotary dial of the Encoder Wheel breakout.
-"""
+print("""
+A demonstration of reading the rotary dial of the Encoder Wheel breakout.
+
+Press Ctrl+C to stop the program.
+""")
 
 # Create a new EncoderWheel
 wheel = EncoderWheel()

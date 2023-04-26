@@ -5,11 +5,11 @@ from ioexpander import PWM
 
 from encoderwheel import CENTRE, GPIOS, NUM_GPIOS, EncoderWheel
 
-"""
+print("""
 Output a sine wave PWM sequence on the Encoder Wheel's side GPIO pins.
 
-Press the centre button to stop the program.
-"""
+Press the centre button or Ctrl+C to stop the program.
+""")
 
 SPEED = 5             # The speed that the PWM will cycle at
 UPDATES = 50          # How many times to update LEDs and Servos per second

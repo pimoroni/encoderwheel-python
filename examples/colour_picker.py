@@ -3,7 +3,7 @@ from colorsys import hsv_to_rgb
 
 from encoderwheel import CENTRE, DOWN, LEFT, NUM_LEDS, RIGHT, UP, EncoderWheel
 
-"""
+print("""
 Create a colour wheel on the Encoder Wheel's LED ring, and use all functions of the wheel to interact with it.
 
 Rotate the wheel to select a Hue
@@ -12,7 +12,9 @@ Press the down direction to decrease Brightness
 Press the left direction to decrease Saturation
 Press the right direction to increase Saturation
 Press the centre to hide the selection marker
-"""
+
+Press Ctrl+C to stop the program.
+""")
 
 # Constants
 BRIGHTNESS_STEP = 0.02      # How much to increase or decrease the brightness each update

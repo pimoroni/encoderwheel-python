@@ -3,9 +3,11 @@ from datetime import datetime
 
 from encoderwheel import NUM_LEDS, EncoderWheel
 
-"""
+print("""
 Displays a 12 hour clock on Encoder Wheel's LED ring, getting time from the system.
-"""
+
+Press Ctrl+C to stop the program.
+""")
 
 # Constants
 BRIGHTNESS = 1.0    # The brightness of the LEDs

@@ -3,11 +3,13 @@ import time
 
 from encoderwheel import CENTRE, NUM_LEDS, EncoderWheel
 
-"""
+print("""
 Display a circular stop-watch on the Encoder Wheel's LED ring.
 
 Press the centre button to start the stopwatch, then again to pause and resume.
-"""
+
+Press Ctrl+C to stop the program.
+""")
 
 # Constants
 BRIGHTNESS = 1.0                    # The brightness of the LEDs when the stopwatch is running

@@ -19,13 +19,13 @@
 ### Buttons
 [buttons.py](buttons.py)
 
-A demonstation of reading the 5 buttons on Encoder Wheel.
+A demonstration of reading the 5 buttons on Encoder Wheel.
 
 
 ### Encoder
 [encoder.py](encoder.py)
 
-A demonstation of reading the rotary dial of the Encoder Wheel breakout.
+A demonstration of reading the rotary dial of the Encoder Wheel breakout.
 
 
 ## LED Examples
