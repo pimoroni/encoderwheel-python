@@ -9,11 +9,11 @@ description = "Python library for the Pimoroni Encoder Wheel"
 license = {file = "LICENSE"}
 requires-python = ">= 3.7"
 authors = [
-    { name = "Philip Howard", email = "phil@pimoroni.com" },
+    { name = "Christopher Parrott", email = "chris@pimoroni.com" },
 ]
 maintainers = [
-    { name = "Philip Howard", email = "phil@pimoroni.com" },
     { name = "Christopher Parrott", email = "chris@pimoroni.com" },
+    { name = "Philip Howard", email = "phil@pimoroni.com" },
 ]
 keywords = [
     "Pi",
@@ -36,7 +36,8 @@ classifiers = [
     "Topic :: System :: Hardware",
 ]
 dependencies = [
-    "pimoroni-ioexpander"
+    "pimoroni-ioexpander",
+    "smbus2"
 ]
 
 [project.urls]
@@ -114,6 +115,6 @@ ignore = [
 ]
 
 [pimoroni]
-apt_packages = ["python3-smbus"]
+apt_packages = []
 configtxt = []
 commands = []
