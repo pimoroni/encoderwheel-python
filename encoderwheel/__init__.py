@@ -155,11 +155,11 @@ if __name__ == "__main__":
     last_count = 0
 
     last_pressed = {
-        wheel.SW_UP: False,
-        wheel.SW_DOWN: False,
-        wheel.SW_LEFT: False,
-        wheel.SW_RIGHT: False,
-        wheel.SW_CENTRE: False,
+        UP: False,
+        DOWN: False,
+        LEFT: False,
+        RIGHT: False,
+        CENTRE: False,
     }
 
     while True:
@@ -167,22 +167,22 @@ if __name__ == "__main__":
         current_time = time.monotonic()
         if current_time >= last_update_time + 0.1:
             if led_sequence == 0:
-                wheel.set_pixel(led_index, 255, 0, 0)
+                wheel.set_rgb(led_index, 255, 0, 0)
 
             if led_sequence == 1:
-                wheel.set_pixel(led_index, 0, 255, 0)
+                wheel.set_rgb(led_index, 0, 255, 0)
 
             if led_sequence == 2:
-                wheel.set_pixel(led_index, 0, 0, 255)
+                wheel.set_rgb(led_index, 0, 0, 255)
 
             if led_sequence == 3:
-                wheel.set_pixel(led_index, 255, 255, 255)
+                wheel.set_rgb(led_index, 255, 255, 255)
 
             if led_sequence == 4:
-                wheel.set_pixel(led_index, 0, 0, 0)
+                wheel.set_rgb(led_index, 0, 0, 0)
 
             led_index += 1
-            if led_index >= 24:
+            if led_index >= NUM_LEDS:
                 led_index = 0
                 led_sequence += 1
                 if led_sequence >= 5:
@@ -199,42 +199,42 @@ if __name__ == "__main__":
                 print("Counter Clockwise, Count =", count)
             last_count = count
 
-        pressed = wheel.ioe.input(wheel.SW_UP) == 0
-        if pressed != last_pressed[wheel.SW_UP]:
+        pressed = wheel.pressed(UP) == 0
+        if pressed != last_pressed[UP]:
             if pressed:
                 print("Up Pressed")
             else:
                 print("Up Released")
-            last_pressed[wheel.SW_UP] = pressed
+            last_pressed[UP] = pressed
 
-        pressed = wheel.ioe.input(wheel.SW_DOWN) == 0
-        if pressed != last_pressed[wheel.SW_DOWN]:
+        pressed = wheel.pressed(DOWN) == 0
+        if pressed != last_pressed[DOWN]:
             if pressed:
                 print("Down Pressed")
             else:
                 print("Down Released")
-            last_pressed[wheel.SW_DOWN] = pressed
+            last_pressed[DOWN] = pressed
 
-        pressed = wheel.ioe.input(wheel.SW_LEFT) == 0
-        if pressed != last_pressed[wheel.SW_LEFT]:
+        pressed = wheel.pressed(LEFT) == 0
+        if pressed != last_pressed[LEFT]:
             if pressed:
                 print("Left Pressed")
             else:
                 print("Left Released")
-            last_pressed[wheel.SW_LEFT] = pressed
+            last_pressed[LEFT] = pressed
 
-        pressed = wheel.ioe.input(wheel.SW_RIGHT) == 0
-        if pressed != last_pressed[wheel.SW_RIGHT]:
+        pressed = wheel.pressed(RIGHT) == 0
+        if pressed != last_pressed[RIGHT]:
             if pressed:
                 print("Right Pressed")
             else:
                 print("Right Released")
-            last_pressed[wheel.SW_RIGHT] = pressed
+            last_pressed[RIGHT] = pressed
 
-        pressed = wheel.ioe.input(wheel.SW_CENTRE) == 0
-        if pressed != last_pressed[wheel.SW_CENTRE]:
+        pressed = wheel.pressed(CENTRE) == 0
+        if pressed != last_pressed[CENTRE]:
             if pressed:
                 print("Centre Pressed")
             else:
                 print("Centre Released")
-            last_pressed[wheel.SW_CENTRE] = pressed
+            last_pressed[CENTRE] = pressed

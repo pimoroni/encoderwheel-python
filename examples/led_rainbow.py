@@ -40,7 +40,7 @@ while True:
     for i in range(24):
         hue = float(i) / 24
         r, g, b = [int(c * 255) for c in hsv_to_rgb(hue + offset, 1.0, BRIGHTNESS)]
-        wheel.set_pixel(i, r, g, b)
+        wheel.set_rgb(i, r, g, b)
     wheel.show()
 
     # Sleep until the next update, accounting for how long the above operations took to perform
