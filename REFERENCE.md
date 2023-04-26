@@ -22,6 +22,7 @@ This is the library reference for the [Pimoroni Encoder Wheel Breakout](https://
 - [Constants Reference](#constants-reference)
   - [Address Constants](#address-constants)
   - [Button Constants](#button-constants)
+  - [GPIO Constants](#gpio-constants)
   - [Count Constants](#count-constants)
 
 
@@ -171,6 +172,13 @@ Here is the complete list of constants on the `encoderwheel` module:
 * `LEFT` = `2`
 * `RIGHT` = `3`
 * `CENTRE` = `4`
+
+
+### GPIO Constants
+
+* `GP7` = `7`
+* `GP8` = `8`
+* `GP9` = `9`
 
 
 ### Count Constants

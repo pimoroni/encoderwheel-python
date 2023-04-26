@@ -20,6 +20,11 @@ LEFT = 2
 RIGHT = 3
 CENTRE = 4
 
+GP7 = 7
+GP8 = 8
+GP9 = 9
+
+
 class EncoderWheel():
     ENC_CHANNEL = 1
     ENC_TERMS = (3, 12)
