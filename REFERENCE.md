@@ -18,6 +18,14 @@ This is the library reference for the [Pimoroni Encoder Wheel Breakout](https://
     - [HSV](#hsv)
   - [Clear all LEDs](#clear-all-leds)
   - [Showing](#showing)
+- [GPIOs](#gpios)
+  - [Setup](#setup)
+  - [Mode](#mode)
+  - [As Input or ADC](#as-input-or-adc)
+  - [As Output](#as-output)
+  - [As PWM](#as-pwm)
+    - [Delayed Loading](#delayed-loading)
+    - [Limitations](#limitations)
 - [Function Reference](#function-reference)
 - [Constants Reference](#constants-reference)
   - [Address Constants](#address-constants)
@@ -132,6 +140,116 @@ This function is useful to have at the end of your code to turn the lights off, 
 Changes to the LEDs do not get applied immediately, due to the amount of I2C communication involved. As such, to have the LEDs show what they have been set to after calling the `.set_rgb()`, `.set_hsv()`, and `.clear()` functions, a specific call to `.show()` needs to be made.
 
 
+## GPIOs
+
+There are three spare GPIO pins on the edge of Encoder Wheel. These can be used as digital outputs, pwm outputs, digital inputs, and analog inputs.
+
+
+### Setup
+
+To start using a GPIO pin, first import one of the handy constants used to reference them (see [GPIO Constants](#gpio-constants)). For example, to use the first GPIO pin:
+
+```python
+from encoderwheel import GP7
+```
+
+Then you need to import the constants for the pin mode to use. These are on the `ioexpander` module that Encoder Wheel is based on.
+
+```python
+# For input
+from ioexpander import IN  # or IN_PU of a pull-up is wanted
+
+# For output
+from ioexpander import OUT
+
+# For PWM
+from ioexpander import PWM
+
+# For ADC
+from ioexpander import ADC
+```
+
+
+### Mode
+
+With the intended constants imported, the mode of a GPIO pin can be set by calling `.gpio_pin_mode(gpio, mode)`:
+
+```python
+wheel.gpio_pin_mode(GP7, <IN or IN_PU or OUT or PWM or ADC>)
+```
+
+It is also possible to read the current mode of a GPIO pin by calling `.gpio_pin_mode(gpio)`:
+
+```python
+mode = wheel.gpio_pin_mode(GP7)
+```
+
+
+### As Input or ADC
+
+The current value of an GPIO pin in input or ADC mode can be read by calling `.gpio_pin_value(gpio)`:
+
+```python
+value = wheel.gpio_pin_value(GP7)
+```
+
+If the mode is digital, the value will either be `0` or `1`.
+If the mode is analog, the value will be a voltage from `0.0` to `3.3`.
+
+
+### As Output
+
+The current value of a GPIO pin in output mode can be set by calling `.gpio_pin_value(gpio, value)`:
+
+```python
+wheel.gpio_pin_value(GP7, value)
+```
+
+The expected value is either `0` or `1`, or `True` or `False`.
+
+
+### As PWM
+
+The GPIO pins can also be set as PWM outputs. The `PWM` constant can be imported from the `ioexpander` module, and passed into the `.gpio_pin_mode()` function.
+
+The frequency of the PWM signal can then be configured by calling `.gpio_pin_frequency()`, which accepts a gpio pin number and the frequency (in Hz).
+
+Finally, the duty cycle of the PWM signal can be set by calling `.gpio_pin_value()` and providing it with a value between `0.0` and `1.0`.
+
+Below is an example of setting a servo pin to output a 25KHz signal with a 50% duty cycle:
+
+```python
+from ioexpander import PWM
+from encoderwheel import EncoderWheel, GP7
+
+# Initialise EncoderWheel
+wheel = EncoderWheel()
+
+# Setup the gpio pin as a PWM output
+wheel.gpio_pin_mode(GP7, PWM)
+
+# Set the gpio pin's frequency to 25KHz
+wheel.gpio_pin_frequency(GP7, 25000)
+
+# Output a 50% duty cycle square wave
+wheel.gpio_pin_value(GP7, 0.5)
+```
+
+
+#### Delayed Loading
+
+By default, changes to a gpio pin's frequency or value are applied immediately. However, sometimes this may not be wanted, and instead you want all pins to receive updated parameters at the same time, regardless of how long the code ran that calculated the update.
+
+For this purpose, `.gpio_pin_frequency()` and `.gpio_pin_value()` include an optional parameter `load`, which by default is `True`. To avoid this "loading" include `load=False` in the relevant function calls. Then either the last call can include `load=True`, or a specific call to `.gpio_pin_load()` can be made.
+
+In addition, any function that performs a load, including the `.gpio_pin_load()` function, can be made to wait until the new PWM value has been sent out of the pins. By default this is disabled, but can be enabled by including `wait_for_load=True` in the relevant function calls.
+
+
+#### Limitations
+
+All of Encoder Wheel's PWM outputs share the same timing parameters. This means that GP7, GP8, and GP9 share the same frequency. Keep this in mind if changing the frequency of one, as the others will not automatically know about the change, resulting in unexpected duty cycle outputs.
+
+
 ## Function Reference
 
 Here is the complete list of functions available on the `EncoderWheel` class:
@@ -152,6 +270,12 @@ set_rgb(index, r, g, b)
 set_hsv(index, h, s=1.0, v=1.0)
 clear()
 show()
+gpio_pin_mode(gpio)
+gpio_pin_mode(gpio, mode)
+gpio_pin_value(gpio)
+gpio_pin_value(gpio, value)
+gpio_pin_load(gpio, wait_for_load=True)
+gpio_pin_frequency(gpio, frequency, load=True, wait_for_load=True)
 ```
 
 ## Constants Reference

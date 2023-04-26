@@ -35,6 +35,8 @@ class EncoderWheel():
     SW_RIGHT = 2
     SW_CENTRE = 1
 
+    PWM_MODULE = 0  # Small Nuvoton only has a single PWM module
+
     def __init__(self, enc_i2c_addr=I2C_ADDR, led_i2c_addr=DEFAULT_LED_I2C_ADDR, interrupt_timeout=1.0, interrupt_pin=None, skip_chip_id_check=False):
         self.ioe = IOE(i2c_addr=enc_i2c_addr,
                        interrupt_timeout=interrupt_timeout,
@@ -112,6 +114,36 @@ class EncoderWheel():
 
     def show(self):
         self.is31fl3731.show()
+
+    def gpio_pin_mode(self, gpio, mode=None):
+        if gpio < 7 or gpio > 9:
+            raise ValueError("gpio out of range. Expected GP7 (7), GP8 (8), or GP9 (9)")
+
+        if mode is None:
+            return self.ioe.get_mode(gpio)
+        else:
+            self.ioe.set_mode(gpio, mode)
+
+    def gpio_pin_value(self, gpio, value=None):
+        if gpio < 7 or gpio > 9:
+            raise ValueError("gpio out of range. Expected GP7 (7), GP8 (8), or GP9 (9)")
+
+        if value is None:
+            return self.ioe.input(gpio)
+        else:
+            self.ioe.output(gpio, value)
+
+    def gpio_pin_load(self, gpio, wait_for_load=True):
+        if gpio < 7 or gpio > 9:
+            raise ValueError("gpio out of range. Expected GP7 (7), GP8 (8), or GP9 (9)")
+
+        self.ioe.pwm_load(PWM_MODULE, wait_for_load)
+
+    def gpio_pin_frequency(self, gpio, frequency, load=True, wait_for_load=True):
+        if gpio < 7 or gpio > 9:
+            raise ValueError("gpio out of range. Expected GP7 (7), GP8 (8), or GP9 (9)")
+
+        self.ioe.set_pwm_frequency(frequency, PWM_MODULE, load=load, wait_for_load=wait_for_load)
 
 
 if __name__ == "__main__":
