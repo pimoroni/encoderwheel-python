@@ -44,7 +44,8 @@ class EncoderWheel():
                        interrupt_timeout=interrupt_timeout,
                        interrupt_pin=interrupt_pin,
                        gpio=None,
-                       skip_chip_id_check=skip_chip_id_check
+                       skip_chip_id_check=skip_chip_id_check,
+                       perform_reset=True
                        )
 
         self.encoder = Encoder(self.ioe, self.ENC_CHANNEL, self.ENC_TERMS, count_microsteps=True, count_divider=2)
