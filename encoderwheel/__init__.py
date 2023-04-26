@@ -199,7 +199,7 @@ if __name__ == "__main__":
                 print("Counter Clockwise, Count =", count)
             last_count = count
 
-        pressed = wheel.pressed(UP) == 0
+        pressed = wheel.pressed(UP)
         if pressed != last_pressed[UP]:
             if pressed:
                 print("Up Pressed")
@@ -207,7 +207,7 @@ if __name__ == "__main__":
                 print("Up Released")
             last_pressed[UP] = pressed
 
-        pressed = wheel.pressed(DOWN) == 0
+        pressed = wheel.pressed(DOWN)
         if pressed != last_pressed[DOWN]:
             if pressed:
                 print("Down Pressed")
@@ -215,7 +215,7 @@ if __name__ == "__main__":
                 print("Down Released")
             last_pressed[DOWN] = pressed
 
-        pressed = wheel.pressed(LEFT) == 0
+        pressed = wheel.pressed(LEFT)
         if pressed != last_pressed[LEFT]:
             if pressed:
                 print("Left Pressed")
@@ -223,7 +223,7 @@ if __name__ == "__main__":
                 print("Left Released")
             last_pressed[LEFT] = pressed
 
-        pressed = wheel.pressed(RIGHT) == 0
+        pressed = wheel.pressed(RIGHT)
         if pressed != last_pressed[RIGHT]:
             if pressed:
                 print("Right Pressed")
@@ -231,7 +231,7 @@ if __name__ == "__main__":
                 print("Right Released")
             last_pressed[RIGHT] = pressed
 
-        pressed = wheel.pressed(CENTRE) == 0
+        pressed = wheel.pressed(CENTRE)
         if pressed != last_pressed[CENTRE]:
             if pressed:
                 print("Centre Pressed")
