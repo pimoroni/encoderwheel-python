@@ -212,11 +212,11 @@ The expected value is either `0` or `1`, or `True` or `False`.
 
 The GPIO pins can also be set as PWM outputs. The `PWM` constant can be imported from the `ioexpander` module, and passed into the `.gpio_pin_mode()` function.
 
-The frequency of the PWM signal can then be configured by calling `.gpio_pin_frequency()`, which accepts a gpio pin number and the frequency (in Hz).
+The frequency of the PWM signal can then be configured by calling `.gpio_pwm_frequency()`, which accepts a frequency (in Hz). It returns the cycle period, which should be used to set duty cycles.
 
-Finally, the duty cycle of the PWM signal can be set by calling `.gpio_pin_value()` and providing it with a value between `0.0` and `1.0`.
+Finally, the duty cycle of the PWM signal can be set by calling `.gpio_pin_value()` and providing it with a value between `0` and the cycle period.
 
-Below is an example of setting a servo pin to output a 25KHz signal with a 50% duty cycle:
+Below is an example of setting a gpio pin to output a 25KHz signal with a 50% duty cycle:
 
 ```python
 from ioexpander import PWM
@@ -228,11 +228,11 @@ wheel = EncoderWheel()
 # Setup the gpio pin as a PWM output
 wheel.gpio_pin_mode(GP7, PWM)
 
-# Set the gpio pin's frequency to 25KHz
-wheel.gpio_pin_frequency(GP7, 25000)
+# Set the gpio pin's frequency to 25KHz, and record the cycle period
+period = wheel.gpio_pwm_frequency(25000)
 
 # Output a 50% duty cycle square wave
-wheel.gpio_pin_value(GP7, 0.5)
+wheel.gpio_pin_value(GP7, int(period * 0.5))
 ```
 
 
@@ -240,9 +240,9 @@ wheel.gpio_pin_value(GP7, 0.5)
 
 By default, changes to a gpio pin's frequency or value are applied immediately. However, sometimes this may not be wanted, and instead you want all pins to receive updated parameters at the same time, regardless of how long the code ran that calculated the update.
 
-For this purpose, `.gpio_pin_frequency()` and `.gpio_pin_value()` include an optional parameter `load`, which by default is `True`. To avoid this "loading" include `load=False` in the relevant function calls. Then either the last call can include `load=True`, or a specific call to `.gpio_pin_load()` can be made.
+For this purpose, `.gpio_pwm_frequency()` and `.gpio_pin_value()` include an optional parameter `load`, which by default is `True`. To avoid this "loading" include `load=False` in the relevant function calls. Then either the last call can include `load=True`, or a specific call to `.gpio_pwm_load()` can be made.
 
-In addition, any function that performs a load, including the `.gpio_pin_load()` function, can be made to wait until the new PWM value has been sent out of the pins. By default this is disabled, but can be enabled by including `wait_for_load=True` in the relevant function calls.
+In addition, any function that performs a load, including the `.gpio_pwm_load()` function, can be made to wait until the new PWM value has been sent out of the pins. By default this is disabled, but can be enabled by including `wait_for_load=True` in the relevant function calls.
 
 
 #### Limitations
@@ -274,8 +274,8 @@ gpio_pin_mode(gpio)
 gpio_pin_mode(gpio, mode)
 gpio_pin_value(gpio)
 gpio_pin_value(gpio, value)
-gpio_pin_load(gpio, wait_for_load=True)
-gpio_pin_frequency(gpio, frequency, load=True, wait_for_load=True)
+gpio_pwm_load(wait_for_load=True)
+gpio_pwm_frequency(frequency, load=True, wait_for_load=True)
 ```
 
 ## Constants Reference
@@ -303,6 +303,7 @@ Here is the complete list of constants on the `encoderwheel` module:
 * `GP7` = `7`
 * `GP8` = `8`
 * `GP9` = `9`
+* `GPIOS` = (`7`, `8`, `9`)
 
 
 ### Count Constants

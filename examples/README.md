@@ -10,6 +10,8 @@
   - [Colour Picker](#colour-picker)
   - [Stop Watch](#stop-watch)
   - [Chase Game](#chase-game)
+- [GPIO Examples](#gpio-examples)
+  - [GPIO PWM](#gpio-pwm)
 
 
 ## Function Examples
@@ -58,3 +60,11 @@ Display a circular stop-watch on the Encoder Wheel's LED ring.
 [chase_game.py](chase_game.py)
 
 A simple alignment game. Use Encoder Wheel's rotary dial to align the coloured band to the white goal. The closer to the goal, the greener your coloured band will be. When you reach the goal, the goal will move to a new random position.
+
+
+## GPIO Examples
+
+### GPIO PWM
+[gpio_pwm.py](gpio_pwm.py)
+
+Output a sine wave PWM sequence on the Encoder Wheel's side GPIO pins.

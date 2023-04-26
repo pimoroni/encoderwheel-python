@@ -13,6 +13,7 @@ DEFAULT_LED_I2C_ADDR = 0x77
 ALTERNATE_LED_I2C_ADDR = 0x74
 NUM_LEDS = 24
 NUM_BUTTONS = 5
+NUM_GPIOS = 3
 
 UP = 0
 DOWN = 1
@@ -23,6 +24,7 @@ CENTRE = 4
 GP7 = 7
 GP8 = 8
 GP9 = 9
+GPIOS = (GP7, GP8, GP9)
 
 
 class EncoderWheel():
@@ -124,26 +126,20 @@ class EncoderWheel():
         else:
             self.ioe.set_mode(gpio, mode)
 
-    def gpio_pin_value(self, gpio, value=None):
+    def gpio_pin_value(self, gpio, value=None, load=True, wait_for_load=False):
         if gpio < 7 or gpio > 9:
             raise ValueError("gpio out of range. Expected GP7 (7), GP8 (8), or GP9 (9)")
 
         if value is None:
             return self.ioe.input(gpio)
         else:
-            self.ioe.output(gpio, value)
+            self.ioe.output(gpio, value, load=load, wait_for_load=wait_for_load)
 
-    def gpio_pin_load(self, gpio, wait_for_load=True):
-        if gpio < 7 or gpio > 9:
-            raise ValueError("gpio out of range. Expected GP7 (7), GP8 (8), or GP9 (9)")
-
+    def gpio_pwm_load(self, wait_for_load=True):
         self.ioe.pwm_load(self.PWM_MODULE, wait_for_load)
 
-    def gpio_pin_frequency(self, gpio, frequency, load=True, wait_for_load=True):
-        if gpio < 7 or gpio > 9:
-            raise ValueError("gpio out of range. Expected GP7 (7), GP8 (8), or GP9 (9)")
-
-        self.ioe.set_pwm_frequency(frequency, self.PWM_MODULE, load=load, wait_for_load=wait_for_load)
+    def gpio_pwm_frequency(self, frequency, load=True, wait_for_load=True):
+        return self.ioe.set_pwm_frequency(frequency, self.PWM_MODULE, load=load, wait_for_load=wait_for_load)
 
 
 if __name__ == "__main__":
