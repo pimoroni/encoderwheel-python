@@ -1,7 +1,6 @@
 import time
-from colorsys import hsv_to_rgb
 
-from encoderwheel import EncoderWheel
+from encoderwheel import NUM_LEDS, EncoderWheel
 
 print("""
 Displays a rotating rainbow pattern on Encoder Wheel's LED ring.
@@ -39,10 +38,9 @@ while True:
     offset += SPEED / 1000.0
 
     # Update all the LEDs
-    for i in range(24):
-        hue = float(i) / 24
-        r, g, b = [int(c * 255) for c in hsv_to_rgb(hue + offset, 1.0, BRIGHTNESS)]
-        wheel.set_rgb(i, r, g, b)
+    for i in range(NUM_LEDS):
+        hue = float(i) / NUM_LEDS
+        wheel.set_hsv(i, hue + offset, 1.0, BRIGHTNESS)
     wheel.show()
 
     # Sleep until the next update, accounting for how long the above operations took to perform
