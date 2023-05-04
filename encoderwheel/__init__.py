@@ -8,7 +8,7 @@ from encoderwheel import is31fl3731
 
 __version__ = '0.0.1'
 
-I2C_ADDR = 0x13
+DEFAULT_IOE_I2C_ADDR = 0x13
 DEFAULT_LED_I2C_ADDR = 0x77
 ALTERNATE_LED_I2C_ADDR = 0x74
 NUM_LEDS = 24
@@ -39,8 +39,8 @@ class EncoderWheel():
 
     PWM_MODULE = 0  # Small Nuvoton only has a single PWM module
 
-    def __init__(self, enc_i2c_addr=I2C_ADDR, led_i2c_addr=DEFAULT_LED_I2C_ADDR, interrupt_timeout=1.0, interrupt_pin=None, skip_chip_id_check=False):
-        self.ioe = IOE(i2c_addr=enc_i2c_addr,
+    def __init__(self, ioe_address=DEFAULT_IOE_I2C_ADDR, led_address=DEFAULT_LED_I2C_ADDR, interrupt_timeout=1.0, interrupt_pin=None, skip_chip_id_check=False):
+        self.ioe = IOE(i2c_addr=ioe_address,
                        interrupt_timeout=interrupt_timeout,
                        interrupt_pin=interrupt_pin,
                        gpio=None,
@@ -62,9 +62,12 @@ class EncoderWheel():
             CENTRE: self.SW_CENTRE
         }
 
-        self.is31fl3731 = is31fl3731.RGBRing(None, address=led_i2c_addr, gamma_table=is31fl3731.LED_GAMMA)
+        self.is31fl3731 = is31fl3731.RGBRing(None, address=led_address, gamma_table=is31fl3731.LED_GAMMA)
         self.is31fl3731.clear()
         self.is31fl3731.show()
+
+    def set_ioe_address(self, address):
+        self.ioe.set_address(address)
 
     def pressed(self, button):
         if button < 0 or button >= NUM_BUTTONS:
@@ -85,7 +88,7 @@ class EncoderWheel():
         return self.encoder.turn()
 
     def zero(self):
-        return self.encoder.zero()
+        self.encoder.zero()
 
     def revolutions(self):
         return self.encoder.revolutions()

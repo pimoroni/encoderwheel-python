@@ -1,6 +1,6 @@
-# Encoder Wheel - Library Reference <!-- omit in toc -->
+# RGB Encoder Wheel - Library Reference <!-- omit in toc -->
 
-This is the library reference for the [Pimoroni Encoder Wheel Breakout](https://shop.pimoroni.com/products/encoder-wheel-breakout).
+This is the library reference for the [Pimoroni RGB Encoder Wheel Breakout](https://shop.pimoroni.com/products/rgb-encoder-wheel-breakout).
 
 
 ## Table of Content <!-- omit in toc -->
@@ -254,7 +254,8 @@ All of Encoder Wheel's PWM outputs share the same timing parameters. This means 
 
 Here is the complete list of functions available on the `EncoderWheel` class:
 ```python
-EncoderWheel(enc_i2c_addr=0x13, led_i2c_addr=0x77, interrupt_timeout=1.0, interrupt_pin=None, skip_chip_id_check=False)
+EncoderWheel(ioe_address=0x13, led_address=0x77, interrupt_timeout=1.0, interrupt_pin=None, skip_chip_id_check=False)
+set_ioe_address(address)
 pressed(button)
 count()
 delta()
@@ -284,7 +285,7 @@ Here is the complete list of constants on the `encoderwheel` module:
 
 ### Address Constants
 
-* `I2C_ADDR` = `0x13`
+* `DEFAULT_IOE_I2C_ADDR` = `0x13`
 * `DEFAULT_LED_I2C_ADDR` = `0x77`
 * `ALTERNATE_LED_I2C_ADDR` = `0x74`
 
@@ -310,3 +311,4 @@ Here is the complete list of constants on the `encoderwheel` module:
 
 * `NUM_LEDS` = `24`
 * `NUM_BUTTONS` = `5`
+* `NUM_GPIOS` = `3`

@@ -1,13 +1,13 @@
-# Encoder Wheel Breakout
+# RGB Encoder Wheel Breakout
 
 [![Build Status](https://travis-ci.com/pimoroni/encoderwheel-python.svg?branch=main)](https://travis-ci.com/pimoroni/encoderwheel-python)
 [![Coverage Status](https://coveralls.io/repos/github/pimoroni/encoderwheel-python/badge.svg?branch=main)](https://coveralls.io/github/pimoroni/encoderwheel-python?branch=main)
 [![PyPi Package](https://img.shields.io/pypi/v/pimoroni-encoderwheel.svg)](https://pypi.python.org/pypi/pimoroni-encoderwheel)
 [![Python Versions](https://img.shields.io/pypi/pyversions/pimoroni-encoderwheel.svg)](https://pypi.python.org/pypi/pimoroni-encoderwheel)
 
-Encoder Wheel is a breakout for the ANO directional navigation and scroll wheel rotary encoder. It uses a Nuvoton MS51 microcontroller to read the encoder and direction buttons via I2C, and features a IS31FL3731 LED driver to control a ring of 24 RGB LEDs that surround the encoder.
+RGB Encoder Wheel is a breakout for the ANO directional navigation and scroll wheel rotary encoder. It uses a Nuvoton MS51 microcontroller to read the encoder and direction buttons via I2C, and features a IS31FL3731 LED driver to control a ring of 24 RGB LEDs that surround the encoder.
 
-**Buy it from:** https://shop.pimoroni.com/products/encoder-wheel-breakout
+**Buy it from:** https://shop.pimoroni.com/products/rgb-encoder-wheel-breakout
 
 
  Getting the Library
