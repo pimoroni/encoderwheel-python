@@ -1,4 +1,4 @@
-# Encoder Wheel Breakout Examples <!-- omit in toc -->
+# RGB Encoder Wheel Breakout Examples <!-- omit in toc -->
 
 - [Function Examples](#function-examples)
   - [Buttons](#buttons)

@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "pimoroni-encoderwheel"
 dynamic = ["version", "readme"]
-description = "Python library for the Pimoroni Encoder Wheel"
+description = "Python library for the Pimoroni RGB Encoder Wheel"
 license = {file = "LICENSE"}
 requires-python = ">= 3.7"
 authors = [
