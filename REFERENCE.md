@@ -256,6 +256,8 @@ Here is the complete list of functions available on the `EncoderWheel` class:
 ```python
 EncoderWheel(ioe_address=0x13, led_address=0x77, interrupt_timeout=1.0, interrupt_pin=None, skip_chip_id_check=False)
 set_ioe_address(address)
+get_interrupt_flag()
+clear_interrupt_flag()
 pressed(button)
 count()
 delta()
@@ -274,7 +276,7 @@ show()
 gpio_pin_mode(gpio)
 gpio_pin_mode(gpio, mode)
 gpio_pin_value(gpio)
-gpio_pin_value(gpio, value)
+gpio_pin_value(gpio, value, load=True, wait_for_load=False)
 gpio_pwm_load(wait_for_load=True)
 gpio_pwm_frequency(frequency, load=True, wait_for_load=True)
 ```

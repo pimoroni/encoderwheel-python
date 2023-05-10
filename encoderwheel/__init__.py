@@ -54,6 +54,13 @@ class EncoderWheel():
         self.ioe.set_mode(self.SW_LEFT, IN_PU)
         self.ioe.set_mode(self.SW_RIGHT, IN_PU)
         self.ioe.set_mode(self.SW_CENTRE, IN_PU)
+
+        self.ioe.set_pin_interrupt(self.SW_UP, True)
+        self.ioe.set_pin_interrupt(self.SW_DOWN, True)
+        self.ioe.set_pin_interrupt(self.SW_LEFT, True)
+        self.ioe.set_pin_interrupt(self.SW_RIGHT, True)
+        self.ioe.set_pin_interrupt(self.SW_CENTRE, True)
+
         self.button_map = {
             UP: self.SW_UP,
             RIGHT: self.SW_RIGHT,
@@ -68,6 +75,12 @@ class EncoderWheel():
 
     def set_ioe_address(self, address):
         self.ioe.set_address(address)
+
+    def get_interrupt_flag(self):
+        return self.ioe.get_interrupt_flag()
+
+    def clear_interrupt_flag(self):
+        self.ioe.clear_interrupt_flag()
 
     def pressed(self, button):
         if button < 0 or button >= NUM_BUTTONS:
