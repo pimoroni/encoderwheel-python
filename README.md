@@ -1,6 +1,6 @@
 # RGB Encoder Wheel Breakout
 
-[![Build Status](https://travis-ci.com/pimoroni/encoderwheel-python.svg?branch=main)](https://travis-ci.com/pimoroni/encoderwheel-python)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/pimoroni/encoderwheel-python/test.yml?branch=main)](https://github.com/pimoroni/encoderwheel-python/actions/workflows/test.yml)
 [![Coverage Status](https://coveralls.io/repos/github/pimoroni/encoderwheel-python/badge.svg?branch=main)](https://coveralls.io/github/pimoroni/encoderwheel-python?branch=main)
 [![PyPi Package](https://img.shields.io/pypi/v/pimoroni-encoderwheel.svg)](https://pypi.python.org/pypi/pimoroni-encoderwheel)
 [![Python Versions](https://img.shields.io/pypi/pyversions/pimoroni-encoderwheel.svg)](https://pypi.python.org/pypi/pimoroni-encoderwheel)
