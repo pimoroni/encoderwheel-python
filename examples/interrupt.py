@@ -10,7 +10,7 @@ Press Ctrl+C to stop the program.
 BUTTON_NAMES = ["Up", "Down", "Left", "Right", "Centre"]
 
 # Create a new EncoderWheel with a pin on the Pi specified as an interrupt
-wheel = EncoderWheel(interrupt_pin=3)
+wheel = EncoderWheel(interrupt_pin=4)
 # If wiring the breakout via the qw/st connector, use the below line instead
 # wheel = EncoderWheel()
 

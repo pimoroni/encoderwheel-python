@@ -49,6 +49,9 @@ class EncoderWheel():
                        )
 
         self.encoder = Encoder(self.ioe, self.ENC_CHANNEL, self.ENC_TERMS, count_microsteps=True, count_divider=2)
+        if interrupt_pin is not None:
+            self.ioe.enable_interrupt_out(pin_swap=True)
+
         self.ioe.set_mode(self.SW_UP, IN_PU)
         self.ioe.set_mode(self.SW_DOWN, IN_PU)
         self.ioe.set_mode(self.SW_LEFT, IN_PU)
@@ -77,10 +80,10 @@ class EncoderWheel():
         self.ioe.set_address(address)
 
     def get_interrupt_flag(self):
-        return self.ioe.get_interrupt_flag()
+        return self.ioe.get_interrupt()
 
     def clear_interrupt_flag(self):
-        self.ioe.clear_interrupt_flag()
+        self.ioe.clear_interrupt()
 
     def pressed(self, button):
         if button < 0 or button >= NUM_BUTTONS:
